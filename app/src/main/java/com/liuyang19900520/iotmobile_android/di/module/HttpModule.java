@@ -5,13 +5,18 @@ import android.content.Context;
 
 import com.liuyang19900520.iotmobile_android.BuildConfig;
 import com.liuyang19900520.iotmobile_android.config.Constants;
+import com.liuyang19900520.iotmobile_android.config.IOTApplication;
+import com.liuyang19900520.iotmobile_android.di.component.AppComponent;
+import com.liuyang19900520.iotmobile_android.model.prefs.SharePrefManager;
 import com.liuyang19900520.iotmobile_android.util.AppNetWorkUtil;
+import com.liuyang19900520.iotmobile_android.util.CryptoUtil;
 import com.liuyang19900520.iotmobile_android.util.LogUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -27,7 +32,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 
 /**
- * Created by xiarh on 2017/9/21.
+ * @author liuyang
+ * @date 2017/9/21
  */
 
 @Module
@@ -91,10 +97,13 @@ public class HttpModule {
 //                if (Your.sToken == null || alreadyHasAuthorizationHeader(originalRequest)) {
 //                    return chain.proceed(originalRequest);
 //                }
+                String clientKey = IOTApplication.getAppComponent().getSharePrefManager().getClientKey();
+                String timeStamp = String.valueOf(System.currentTimeMillis());
+                String baseString = clientKey + timeStamp;
                 Request authorised = originalRequest.newBuilder()
-                        .addHeader("Authorization", "3AC57436D695C147123B7DAE59A1F542")
-                        .addHeader("token", "")
-                        .addHeader("Date", "1521992714618")
+                        .addHeader("Authorization", CryptoUtil.hmacDigest(baseString))
+                        .addHeader("token", IOTApplication.getAppComponent().getSharePrefManager().getToken())
+                        .addHeader("Date", timeStamp)
                         .addHeader("Content-Type", "application/json")
                         .build();
                 return chain.proceed(authorised);

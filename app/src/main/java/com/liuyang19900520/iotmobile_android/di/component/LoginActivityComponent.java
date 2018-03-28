@@ -3,6 +3,7 @@ package com.liuyang19900520.iotmobile_android.di.component;
 import com.liuyang19900520.iotmobile_android.di.module.LoginActivityModule;
 import com.liuyang19900520.iotmobile_android.di.scope.ActivityScope;
 import com.liuyang19900520.iotmobile_android.view.main.LoginActivity;
+import com.liuyang19900520.iotmobile_android.view.main.MainActivity;
 
 
 import dagger.Component;
@@ -17,5 +18,7 @@ import dagger.Component;
 public interface LoginActivityComponent {
 
     void inject(LoginActivity loginActivity);
+
+    void injectMain(MainActivity mainActivity);
 
 }

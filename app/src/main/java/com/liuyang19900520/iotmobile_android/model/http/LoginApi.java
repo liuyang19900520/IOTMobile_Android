@@ -10,7 +10,9 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
- * Created by liuya on 2018/3/26.
+ *
+ * @author liuya
+ * @date 2018/3/26
  */
 
 public interface LoginApi {
@@ -19,4 +21,7 @@ public interface LoginApi {
 
     @POST("auth/login")
     Flowable<ResultVo> login(@Body LoginUser loginUser);
+
+    @POST("api/delete")
+    Flowable<ResultVo> testApi();
 }

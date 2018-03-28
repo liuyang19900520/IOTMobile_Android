@@ -3,6 +3,7 @@ package com.liuyang19900520.iotmobile_android.view.main;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -41,7 +42,10 @@ import com.liuyang19900520.iotmobile_android.contract.LoginContract;
 import com.liuyang19900520.iotmobile_android.di.component.DaggerLoginActivityComponent;
 import com.liuyang19900520.iotmobile_android.di.module.LoginActivityModule;
 import com.liuyang19900520.iotmobile_android.model.bean.LoginUser;
+import com.liuyang19900520.iotmobile_android.model.prefs.SharePrefManager;
 import com.liuyang19900520.iotmobile_android.presenter.LoginPresenter;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -60,6 +64,8 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
     @BindView(R.id.password)
     EditText etPassword;
 
+    @Inject
+    SharePrefManager sharePrefManager;
 
     @Override
     public void showVCode(String imageBase64) {
@@ -93,7 +99,13 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
         LoginUser loginUser = new LoginUser();
         loginUser.setPassword(password);
         loginUser.setUsername(username);
+        sharePrefManager.setClientKey(username);
         mPresenter.login(loginUser);
+    }
+
+    @Override
+    public void toMain() {
+        startActivity(new Intent(this, MainActivity.class));
     }
 }
 

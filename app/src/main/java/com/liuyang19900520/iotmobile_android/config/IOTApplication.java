@@ -19,7 +19,9 @@ import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
 /**
- * Created by xiarh on 2017/9/20.
+ *
+ * @author liuyang
+ * @date 2017/9/20
  */
 
 public class IOTApplication extends Application {

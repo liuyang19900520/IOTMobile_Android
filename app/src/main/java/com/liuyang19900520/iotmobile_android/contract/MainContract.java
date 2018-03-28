@@ -9,23 +9,17 @@ import com.liuyang19900520.iotmobile_android.model.bean.LoginUser;
 /**
  * @author liuya
  */
-public interface LoginContract {
+public interface MainContract {
 
     interface View extends BaseView {
 
-        void showVCode(String imageBase64);
-
         void toMain();
-
 
     }
 
     interface Presenter extends BasePresenter<View> {
 
-        /**
-         * 登录
-         */
-        void login(LoginUser loginUser);
+        void testApi();
 
 
     }
