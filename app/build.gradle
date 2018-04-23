@@ -131,8 +131,8 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.11'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
     // fragmentation
-    implementation 'me.yokeyword:fragmentation:1.1.6'
-    implementation 'me.yokeyword:fragmentation-swipeback:1.1.6'
+    implementation 'me.yokeyword:fragmentation:1.3.3'
+    implementation 'me.yokeyword:fragmentation-swipeback:1.3.3'
     // leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
@@ -148,8 +148,17 @@ dependencies {
     }
     // 椭圆形图片
     implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
     // JiaoZiVideoPlayer
     implementation 'cn.jzvd:jiaozivideoplayer:6.2.7'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
     implementation files('libs/tbs_sdk_thirdapp_v3.5.0.1004_43500_sharewithdownload_withoutGame_obfs_20170801_113025.jar')
+
+    implementation 'com.google.guava:guava:24.1-android'
+
+    implementation("com.mikepenz:materialdrawer:6.0.7@aar") {
+        transitive = true
+    }
+    implementation 'com.mikepenz:itemanimators:1.0.2@aar'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
 }

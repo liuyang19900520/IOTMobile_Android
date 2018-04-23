@@ -39,6 +39,7 @@ import com.liuyang19900520.iotmobile_android.R;
 import com.liuyang19900520.iotmobile_android.base.BaseMVPActivity;
 import com.liuyang19900520.iotmobile_android.config.IOTApplication;
 import com.liuyang19900520.iotmobile_android.contract.LoginContract;
+
 import com.liuyang19900520.iotmobile_android.di.component.DaggerLoginActivityComponent;
 import com.liuyang19900520.iotmobile_android.di.module.LoginActivityModule;
 import com.liuyang19900520.iotmobile_android.model.bean.LoginUser;
@@ -89,7 +90,7 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
 
     @Override
     protected void initialize() {
-
+        sharePrefManager.setToken(null);
     }
 
     @OnClick(R.id.email_sign_in_button)

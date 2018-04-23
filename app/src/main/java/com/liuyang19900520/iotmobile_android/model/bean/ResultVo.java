@@ -40,4 +40,12 @@ public class ResultVo {
         this.timestamp = timestamp;
     }
 
+    public static ResultVo success(int code, String msg, Object data) {
+        return new ResultVo(SUCCESS, code, msg, data, System.currentTimeMillis());
+    }
+
+    public static ResultVo error(int code, String msg, Object data) {
+        return new ResultVo(FAILURE, code, msg, data, System.currentTimeMillis());
+    }
+
 }

@@ -8,7 +8,7 @@ import javax.inject.Inject;
 /**
  * SharePreferences管理类
  *
- * @author xiarh
+ * @author liuyang
  * @date 2017/9/21
  */
 

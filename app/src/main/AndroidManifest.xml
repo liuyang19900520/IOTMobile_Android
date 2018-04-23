@@ -39,8 +39,7 @@
         <activity
             android:name=".view.main.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Main" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.main.LoginActivity"
             android:label="@string/title_activity_login"></activity>

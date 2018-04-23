@@ -17,11 +17,9 @@ import retrofit2.http.Query;
 
 public interface LoginApi {
 
-    String HOST = "http://192.168.244.1:8080/";
+    String HOST = "http://192.168.244.1:8085/";
 
     @POST("auth/login")
     Flowable<ResultVo> login(@Body LoginUser loginUser);
 
-    @POST("api/delete")
-    Flowable<ResultVo> testApi();
 }

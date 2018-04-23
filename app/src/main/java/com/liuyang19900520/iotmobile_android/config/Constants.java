@@ -12,7 +12,7 @@ public class Constants {
     public static final String ONE_URL = "https://meiriyiwen.com/";
 
     // 微信精选Key
-    public static final String WEIXIN_KEY = "1ae28fc9dd5afadc696ad94cd59426d8";
+    public static final String WEIXIN_KEY = "d948bbe967b68edd16a97ec68127ca1d";
 
     // bugly APP ID
     public static final String BUGLY_APP_ID = "e0359610ba";

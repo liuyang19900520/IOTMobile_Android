@@ -6,30 +6,30 @@ import android.content.Context;
 import com.liuyang19900520.iotmobile_android.BuildConfig;
 import com.liuyang19900520.iotmobile_android.config.Constants;
 import com.liuyang19900520.iotmobile_android.config.IOTApplication;
-import com.liuyang19900520.iotmobile_android.di.component.AppComponent;
-import com.liuyang19900520.iotmobile_android.model.prefs.SharePrefManager;
+import com.liuyang19900520.iotmobile_android.di.qualifier.WeiXinURL;
+import com.liuyang19900520.iotmobile_android.di.scope.FragmentScope;
+import com.liuyang19900520.iotmobile_android.model.http.WeiXinApi;
 import com.liuyang19900520.iotmobile_android.util.AppNetWorkUtil;
 import com.liuyang19900520.iotmobile_android.util.CryptoUtil;
-import com.liuyang19900520.iotmobile_android.util.LogUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
-import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author liuyang
@@ -123,4 +123,6 @@ public class HttpModule {
         builder.retryOnConnectionFailure(true);
         return builder.build();
     }
+
+
 }
