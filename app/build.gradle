@@ -82,6 +82,10 @@ android {
     }
     productFlavors {
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 repositories {
@@ -161,4 +165,6 @@ dependencies {
     }
     implementation 'com.mikepenz:itemanimators:1.0.2@aar'
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
+
+
 }

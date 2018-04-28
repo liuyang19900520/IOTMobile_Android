@@ -1,9 +1,6 @@
 package com.liuyang19900520.iotmobile_android.view.main;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.liuyang19900520.iotmobile_android.R;
@@ -11,13 +8,11 @@ import com.liuyang19900520.iotmobile_android.base.BaseFragment;
 import com.liuyang19900520.iotmobile_android.base.BaseMVPActivity;
 import com.liuyang19900520.iotmobile_android.config.IOTApplication;
 import com.liuyang19900520.iotmobile_android.contract.MainContract;
-
 import com.liuyang19900520.iotmobile_android.di.component.DaggerMainActivityComponent;
 import com.liuyang19900520.iotmobile_android.di.module.MainActivityModule;
-import com.liuyang19900520.iotmobile_android.model.bean.TestApi;
+import com.liuyang19900520.iotmobile_android.model.bean.TestApiBean;
 import com.liuyang19900520.iotmobile_android.model.prefs.SharePrefManager;
 import com.liuyang19900520.iotmobile_android.presenter.MainPresenter;
-import com.liuyang19900520.iotmobile_android.view.testapi.adapter.TestApiFragmentPagerAdapter;
 import com.liuyang19900520.iotmobile_android.view.testapi.TestApiFragment;
 import com.liuyang19900520.iotmobile_android.view.weixin.WeiXinFragment;
 import com.mikepenz.itemanimators.AlphaCrossFadeAnimator;
@@ -41,7 +36,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 /**
  * @author liuya
  */
-public class MainActivity extends BaseMVPActivity<MainPresenter> implements MainContract.View {
+public class MainActivity extends BaseMVPActivity<MainPresenter> implements MainContract.View, BaseFragment.OnFragmentOpenDrawerListener {
 
     @Inject
     SharePrefManager sharePrefManager;
@@ -49,8 +44,6 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
     private WeiXinFragment weiXinFragment;
 
     private TestApiFragment testApiFragment;
-
-    private TabLayout tabLayout;
 
     /**
      * save our header or result
@@ -65,13 +58,6 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
     @Override
     protected void initialize() {
-
-        // Handle Toolbar
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-
 
         headerDrawer = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -88,7 +74,6 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
         resultDrawer = new DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar)
                 .withHasStableIds(true)
                 .withItemAnimator(new AlphaCrossFadeAnimator())
                 .withAccountHeader(headerDrawer)
@@ -108,12 +93,9 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
                                 newBundle.putString("from", "From:" + topFragment.getClass().getSimpleName());
                                 fragment.putNewBundle(newBundle);
                                 myHome.start(fragment, SupportFragment.SINGLETASK);
-                                toolbar.setTitle("微信文章");
-                                tabLayout.setVisibility(View.GONE);
 
 
                             } else if (drawerItem.getIdentifier() == 2) {
-                                toolbar.setTitle("测试接口");
                                 TestApiFragment fragment = findFragment(TestApiFragment.class);
                                 if (fragment == null) {
                                     myHome.startWithPopTo(new TestApiFragment(), WeiXinFragment.class, false);
@@ -122,7 +104,7 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
                                     myHome.start(fragment, SupportFragment.SINGLETASK);
 
                                 }
-                                tabLayout.setVisibility(View.VISIBLE);
+
                             }
                         }
                         return false;
@@ -130,6 +112,7 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
                 }).build();
 
         initFragment();
+
 
 
     }
@@ -147,7 +130,7 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
 
     @Override
-    public void showApiList(List<TestApi> apis) {
+    public void showApiList(List<TestApiBean> apis) {
 
     }
 
@@ -160,18 +143,11 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
     }
 
+
     @Override
-    protected void onResume() {
-        super.onResume();
-        final ISupportFragment topFragment = getTopFragment();
-        BaseFragment myHome = (BaseFragment) topFragment;
-        if (!myHome.getTag().equals(testApiFragment.getTag())) {
-            tabLayout.setVisibility(View.GONE);
-        } else {
-            tabLayout.setVisibility(View.VISIBLE);
+    public void onOpenDrawer() {
+        if (!resultDrawer.isDrawerOpen()) {
+            resultDrawer.openDrawer();
         }
-
     }
-
-
 }

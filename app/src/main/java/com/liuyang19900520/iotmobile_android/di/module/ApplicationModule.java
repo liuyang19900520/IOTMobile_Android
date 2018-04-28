@@ -3,6 +3,7 @@ package com.liuyang19900520.iotmobile_android.di.module;
 import android.content.Context;
 
 import com.liuyang19900520.iotmobile_android.config.IOTApplication;
+import com.liuyang19900520.iotmobile_android.model.db.GreenDaoManager;
 import com.liuyang19900520.iotmobile_android.model.prefs.SharePrefManager;
 
 
@@ -36,9 +37,9 @@ public class ApplicationModule {
         return new SharePrefManager(context);
     }
 
-//    @Provides
-//    @Singleton
-//    GreenDaoManager provideGreenDaoManager(Context context){
-//        return new GreenDaoManager(context);
-//    }
+    @Provides
+    @Singleton
+    GreenDaoManager provideGreenDaoManager(Context context){
+        return new GreenDaoManager(context);
+    }
 }

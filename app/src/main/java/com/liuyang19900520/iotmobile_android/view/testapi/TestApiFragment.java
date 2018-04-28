@@ -1,58 +1,56 @@
 package com.liuyang19900520.iotmobile_android.view.testapi;
 
-import android.support.design.widget.TabLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 
-import com.google.common.base.Strings;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.liuyang19900520.iotmobile_android.R;
 import com.liuyang19900520.iotmobile_android.base.BaseFragment;
-import com.liuyang19900520.iotmobile_android.base.BaseMVPFragment;
+import com.liuyang19900520.iotmobile_android.base.RxBus;
 import com.liuyang19900520.iotmobile_android.config.IOTApplication;
-import com.liuyang19900520.iotmobile_android.contract.TestApiContract;
-import com.liuyang19900520.iotmobile_android.di.component.DaggerTestApiFragmentComponent;
-import com.liuyang19900520.iotmobile_android.di.component.DaggerWeiXinFragmentComponent;
-import com.liuyang19900520.iotmobile_android.di.module.TestApiFragmentModule;
-import com.liuyang19900520.iotmobile_android.di.module.WeiXinFragmentModule;
-import com.liuyang19900520.iotmobile_android.model.bean.TestApi;
+import com.liuyang19900520.iotmobile_android.model.bean.TestApiBean;
+import com.liuyang19900520.iotmobile_android.model.db.GreenDaoManager;
 import com.liuyang19900520.iotmobile_android.model.prefs.SharePrefManager;
-import com.liuyang19900520.iotmobile_android.presenter.TestApiPresenter;
-import com.liuyang19900520.iotmobile_android.view.testapi.adapter.TestApiFragmentPagerAdapter;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
+import com.liuyang19900520.iotmobile_android.util.ToastUtils;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import io.reactivex.Flowable;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
+import butterknife.OnClick;
+
 
 /**
- * 微信精选
- * Created by xiarh on 2017/11/8.
+ * TestApi
+ *
+ * @author liuyang
  */
 
-public class TestApiFragment extends BaseMVPFragment<TestApiPresenter> implements TestApiContract.View {
+public class TestApiFragment extends BaseFragment {
 
+    private static final int REFRESH_DATA = 0X0000001;
 
-    @BindView(R.id.viewpager)
-    ViewPager viewPager;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    private MaterialDialog insertDialog;
+    private EditText etCategory;
+    private EditText etName;
+    private EditText etUrl;
+    private EditText etParams;
 
 
     @Inject
     SharePrefManager sharePrefManager;
-
-    private TestApiFragmentPagerAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -60,50 +58,116 @@ public class TestApiFragment extends BaseMVPFragment<TestApiPresenter> implement
     }
 
 
-    @Override
-    protected void initialize() {
+    @OnClick(R.id.fab_add)
+    public void addTestApi(FloatingActionButton btnAdd) {
 
-        mPresenter.getTestApiData();
+        insertDialog =
+                new MaterialDialog.Builder(getContext())
+                        .title("Insert the Api for test")
+                        .customView(R.layout.dialog_insert_test_api, true)
+                        .positiveText(android.R.string.ok)
+                        .negativeText(android.R.string.cancel)
+                        .onPositive(
+                                (dialog1, which) -> insertApi())
+                        .build();
 
+
+        insertDialog.show();
 
     }
 
-    private void setupViewPager(final ViewPager viewPager, List<TestApi> list) {
-        adapter = new TestApiFragmentPagerAdapter(getChildFragmentManager());
 
-        Flowable.fromIterable(list).subscribe(new Consumer<TestApi>() {
+    private void initMenu() {
+        toolbar.setTitle("Test Api");
+        toolbar.setSubtitle("CRUD");
+        initToolbarNav(toolbar, true);
+        toolbar.setNavigationIcon(R.drawable.ic_menu);
+        toolbar.inflateMenu(R.menu.menu_test_api);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void accept(TestApi testApi) throws Exception {
-                adapter.addFragment(TestApiListFragment.newInstance(testApi.getApis()), testApi.getCategory());
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_crud:
+                        ToastUtils.showShortToast("crud");
+                        toolbar.setSubtitle("CRUD");
+                        break;
+                    case R.id.action_test:
+                        ToastUtils.showShortToast("test");
+                        toolbar.setSubtitle("TEST");
+                        break;
+                    default:
+                        break;
+                }
+                return false;
             }
         });
+    }
 
-        viewPager.setAdapter(adapter);
-        TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+
+    @Override
+    protected void initialize() {
+//        daoManager = IOTApplication.getAppComponent().getGreenDaoManager();
+        initMenu();
+        GreenDaoTestApiFragment greenDaoTestApiFragment = new GreenDaoTestApiFragment();
+        loadRootFragment(R.id.test_api_content, greenDaoTestApiFragment);
+
+    }
+
+    private void insertApi() {
+        etCategory = insertDialog.getCustomView().findViewById(R.id.et_category);
+        etName = insertDialog.getCustomView().findViewById(R.id.ed_name);
+        etUrl = insertDialog.getCustomView().findViewById(R.id.ed_url);
+        etParams = insertDialog.getCustomView().findViewById(R.id.ed_params);
+
+        String category = String.valueOf(etCategory.getText());
+        String name = String.valueOf(etName.getText());
+        String url = String.valueOf(etUrl.getText());
+        String params = String.valueOf(etParams.getText());
+
+        TestApiBean testApiBean = new TestApiBean();
+        testApiBean.setCategory(category);
+        testApiBean.setApiName(name);
+        testApiBean.setApiUrl(url);
+        testApiBean.setParams(params);
+
+//        daoManager.insert(testApiBean);
+
+        RxBus.getInstance().post(testApiBean);
+
+    }
+
+
+    private void setupViewPager(final ViewPager viewPager, List<TestApiBean> list) {
+//        adapter = new TestApiFragmentPagerAdapter(getChildFragmentManager());
+//
+//        Flowable.fromIterable(list).subscribe(new Consumer<TestApiBean>() {
+//            @Override
+//            public void accept(TestApiBean testApi) throws Exception {
+//                adapter.addFragment(TestApiListFragment.newInstance(testApi.getApis()), testApi.getCategory());
+//            }
+//        });
+//
+//        viewPager.setAdapter(adapter);
+//        TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
+//        tabLayout.setupWithViewPager(viewPager);
 //        adapter.addFragment(new TestApiListFragment(), "Category 3");
 
     }
 
-    @Override
-    protected void initInject() {
-        DaggerTestApiFragmentComponent
-                .builder()
-                .appComponent(IOTApplication.getAppComponent())
-                .testApiFragmentModule(new TestApiFragmentModule())
-                .build()
-                .inject(this);
-    }
 
-    @Override
-    public void showApis(List<TestApi> testApis) {
-        setupViewPager(viewPager, testApis);
-
-
-    }
-
-    @Override
-    public void failGetData() {
-
-    }
+//    private void insertTestApi() {
+//        int index = 0;
+//        List<TestApiBean> testApiBeans = daoManager.queryAll();
+//        if (testApiBeans.size() != 0) {
+//            Long id = testApiBeans.get(0).getId();
+//            index = (int) (id + 1);
+//        }
+//
+//        TestApiBean testApiBean = new TestApiBean();
+//        testApiBean.setApiName("name==" + index);
+//        testApiBean.setApiUrl("url==" + index);
+//        testApiBean.setCategory("cate==" + index);
+//        testApiBean.setParams("params==" + index);
+////        daoManager.insert(testApiBean);
+//    }
 }

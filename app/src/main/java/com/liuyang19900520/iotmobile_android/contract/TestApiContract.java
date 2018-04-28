@@ -3,13 +3,11 @@ package com.liuyang19900520.iotmobile_android.contract;
 
 import com.liuyang19900520.iotmobile_android.base.BasePresenter;
 import com.liuyang19900520.iotmobile_android.base.BaseView;
-import com.liuyang19900520.iotmobile_android.model.bean.TestApi;
-import com.liuyang19900520.iotmobile_android.model.bean.WeiXinBean;
+import com.liuyang19900520.iotmobile_android.model.bean.TestApiBean;
 
 import java.util.List;
 
 /**
- *
  * @author xiarh
  * @date 2017/11/8
  */
@@ -18,23 +16,19 @@ public interface TestApiContract {
 
     interface View extends BaseView {
 
-        /**
-         * 成功获取数据
-         *
-         * @param testApis
-         */
-        void showApis(List<TestApi> testApis);
+        void showApis(List<TestApiBean> testApis);
 
-        /**
-         * 获取数据失败
-         */
-        void failGetData();
+        void refreshAdapter(boolean isRefresh);
 
     }
 
     interface Presenter extends BasePresenter<View> {
 
-        void getTestApiData();
+        void getTestApiData(int pagesize, int page);
+
+        void deleteTestApi(TestApiBean api);
+
+        void insertTestApi();
 
 
     }

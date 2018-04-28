@@ -4,9 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.liuyang19900520.iotmobile_android.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -17,7 +22,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Created by xiarh on 2017/9/21.
  */
 
-public abstract class BaseFragment extends SupportFragment{
+public abstract class BaseFragment extends SupportFragment {
 
     protected View mView;
 
@@ -33,11 +38,41 @@ public abstract class BaseFragment extends SupportFragment{
 
     protected boolean isInited = false;
 
+    protected OnFragmentOpenDrawerListener mOpenDraweListener;
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public interface OnFragmentOpenDrawerListener {
+        void onOpenDrawer();
+    }
+
+    protected void initToolbarNav(Toolbar toolbar) {
+        initToolbarNav(toolbar, false);
+    }
+
+    protected void initToolbarNav(Toolbar toolbar, boolean isHome) {
+        toolbar.setNavigationIcon(R.drawable.ic_menu);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOpenDraweListener != null) {
+                    mOpenDraweListener.onOpenDrawer();
+                }
+            }
+        });
+    }
+
     @Override
     public void onAttach(Context context) {
         mActivity = (Activity) context;
         mContext = context;
         super.onAttach(context);
+        if (context instanceof OnFragmentOpenDrawerListener) {
+            mOpenDraweListener = (OnFragmentOpenDrawerListener) context;
+        }
     }
 
     @Nullable
@@ -59,5 +94,6 @@ public abstract class BaseFragment extends SupportFragment{
     public void onDestroyView() {
         super.onDestroyView();
         mUnBinder.unbind();
+        mOpenDraweListener = null;
     }
 }

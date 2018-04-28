@@ -4,14 +4,14 @@ import android.content.Context;
 
 import com.google.common.collect.Lists;
 import com.liuyang19900520.iotmobile_android.base.BaseSubscriber;
+import com.liuyang19900520.iotmobile_android.base.RxBus;
 import com.liuyang19900520.iotmobile_android.base.RxPresenter;
-import com.liuyang19900520.iotmobile_android.config.Constants;
+import com.liuyang19900520.iotmobile_android.config.IOTApplication;
 import com.liuyang19900520.iotmobile_android.config.Messages;
-import com.liuyang19900520.iotmobile_android.contract.MainContract;
 import com.liuyang19900520.iotmobile_android.contract.TestApiContract;
 import com.liuyang19900520.iotmobile_android.model.bean.ResultVo;
-import com.liuyang19900520.iotmobile_android.model.bean.TestApi;
-import com.liuyang19900520.iotmobile_android.model.bean.WeiXinBean;
+import com.liuyang19900520.iotmobile_android.model.bean.TestApiBean;
+import com.liuyang19900520.iotmobile_android.model.db.GreenDaoManager;
 
 import java.util.List;
 
@@ -28,53 +28,60 @@ import io.reactivex.schedulers.Schedulers;
 
 public class TestApiPresenter extends RxPresenter<TestApiContract.View> implements TestApiContract.Presenter {
 
-
+    private static final int REFRESH_DATA = 0X0000001;
     private Context context;
+
+    private GreenDaoManager dbManager;
 
 
     @Inject
     public TestApiPresenter(Context context) {
 
         this.context = context;
+        dbManager = IOTApplication.getAppComponent().getGreenDaoManager();
     }
 
+    @Override
+    public void getTestApiData(int pagesize, int page) {
+        List<TestApiBean> list = dbManager.queryAll();
+        addSubscribe(Flowable.just(1).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(new BaseSubscriber<Integer>(context, mView) {
+                    @Override
+                    public void onNext(Integer integer) {
+                        mView.showApis(list);
+                    }
+
+                }));
+
+    }
 
     @Override
-    public void getTestApiData() {
-        addSubscribe(Flowable.just(getTestApis())
+    public void deleteTestApi(TestApiBean api) {
+        dbManager.delete(api);
+        getTestApiData(0, 0);
+    }
+
+    @Override
+    public void insertTestApi() {
+        addSubscribe(RxBus.getInstance().register(TestApiBean.class)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new BaseSubscriber<ResultVo>(context, mView) {
+                .subscribeWith(new BaseSubscriber<TestApiBean>(context, mView) {
                     @Override
-                    public void onNext(ResultVo resultVo) {
-                        mView.showApis((List<TestApi>) resultVo.getData());
+                    public void onNext(TestApiBean api) {
+
+                        dbManager.insert(api);
+                        getTestApiData(0, 0);
                     }
 
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                        mView.failGetData();
-                    }
                 }));
     }
 
-    private ResultVo getTestApis() {
-
-        TestApi.Api api1 = new TestApi.Api("a","a", null);
-        TestApi.Api api2 = new TestApi.Api("b", "b",null);
-        List<TestApi.Api> testApis1 = Lists.newArrayList(api1, api2);
-
-        TestApi.Api api3 = new TestApi.Api("c", "c",null);
-        TestApi.Api api4 = new TestApi.Api("d", "d",null);
-        List<TestApi.Api> testApis2 = Lists.newArrayList(api3, api4);
-
-        TestApi testApi1 = new TestApi("auth", testApis1);
-        TestApi testApi2 = new TestApi("check", testApis2);
-
-        List<TestApi> testApis = Lists.newArrayList(testApi1, testApi2);
-
-
-        return ResultVo.success(Messages.OK, Messages.SUCCESS, testApis);
-    }
-
 }
+
+
+
+
+
+
+

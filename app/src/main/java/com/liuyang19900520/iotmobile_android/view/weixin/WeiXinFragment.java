@@ -4,15 +4,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liuyang19900520.iotmobile_android.R;
 import com.liuyang19900520.iotmobile_android.base.BaseMVPFragment;
 import com.liuyang19900520.iotmobile_android.config.IOTApplication;
 import com.liuyang19900520.iotmobile_android.contract.WeiXinContract;
-
 import com.liuyang19900520.iotmobile_android.di.component.DaggerWeiXinFragmentComponent;
-import com.liuyang19900520.iotmobile_android.di.module.HttpModule;
 import com.liuyang19900520.iotmobile_android.di.module.WeiXinFragmentModule;
 import com.liuyang19900520.iotmobile_android.model.bean.WeiXinBean;
 import com.liuyang19900520.iotmobile_android.model.prefs.SharePrefManager;
@@ -35,6 +34,9 @@ public class WeiXinFragment extends BaseMVPFragment<WeiXinPresenter> implements 
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Inject
     SharePrefManager sharePrefManager;
@@ -60,8 +62,11 @@ public class WeiXinFragment extends BaseMVPFragment<WeiXinPresenter> implements 
                 .inject(this);
     }
 
+
     @Override
     protected void initialize() {
+        toolbar.setTitle("Wechat Contents");
+        initToolbarNav(toolbar, true);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -89,6 +94,7 @@ public class WeiXinFragment extends BaseMVPFragment<WeiXinPresenter> implements 
 //            }
 //        });
     }
+
 
     /**
      * 下拉刷新
@@ -161,4 +167,6 @@ public class WeiXinFragment extends BaseMVPFragment<WeiXinPresenter> implements 
             weiXinAdapter.notifyDataSetChanged();
         }
     }
+
+
 }
