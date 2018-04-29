@@ -1,6 +1,8 @@
 package com.liuyang19900520.iotmobile_android.view.testapi;
 
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
@@ -8,10 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.liuyang19900520.iotmobile_android.R;
 import com.liuyang19900520.iotmobile_android.base.BaseFragment;
 import com.liuyang19900520.iotmobile_android.base.RxBus;
@@ -20,13 +25,21 @@ import com.liuyang19900520.iotmobile_android.model.bean.TestApiBean;
 import com.liuyang19900520.iotmobile_android.model.db.GreenDaoManager;
 import com.liuyang19900520.iotmobile_android.model.prefs.SharePrefManager;
 import com.liuyang19900520.iotmobile_android.util.ToastUtils;
+import com.liuyang19900520.iotmobile_android.view.testapi.adapter.TestApiFragmentPagerAdapter;
+import com.liuyang19900520.iotmobile_android.view.weixin.WeiXinFragment;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Flowable;
+import me.yokeyword.fragmentation.ISupportFragment;
+import me.yokeyword.fragmentation.SupportFragment;
 
 
 /**
@@ -42,6 +55,9 @@ public class TestApiFragment extends BaseFragment {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.tabs)
+    TabLayout toolbarLayout;
+
     private MaterialDialog insertDialog;
     private EditText etCategory;
     private EditText etName;
@@ -52,6 +68,9 @@ public class TestApiFragment extends BaseFragment {
     @Inject
     SharePrefManager sharePrefManager;
 
+    private GreenDaoTestApiFragment greenDaoTestApiFragment;
+    private TestApiListMainFragment testApiListMainFragment;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_test_api;
@@ -60,7 +79,6 @@ public class TestApiFragment extends BaseFragment {
 
     @OnClick(R.id.fab_add)
     public void addTestApi(FloatingActionButton btnAdd) {
-
         insertDialog =
                 new MaterialDialog.Builder(getContext())
                         .title("Insert the Api for test")
@@ -70,10 +88,7 @@ public class TestApiFragment extends BaseFragment {
                         .onPositive(
                                 (dialog1, which) -> insertApi())
                         .build();
-
-
         insertDialog.show();
-
     }
 
 
@@ -86,14 +101,20 @@ public class TestApiFragment extends BaseFragment {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+
+                final ISupportFragment topFragment = getTopFragment();
+                BaseFragment myHome = (BaseFragment) topFragment;
                 switch (item.getItemId()) {
                     case R.id.action_crud:
-                        ToastUtils.showShortToast("crud");
                         toolbar.setSubtitle("CRUD");
+                        toolbarLayout.setVisibility(View.GONE);
+                        showHideFragment(greenDaoTestApiFragment, testApiListMainFragment);
                         break;
                     case R.id.action_test:
                         ToastUtils.showShortToast("test");
                         toolbar.setSubtitle("TEST");
+                        toolbarLayout.setVisibility(View.VISIBLE);
+                        showHideFragment(testApiListMainFragment, greenDaoTestApiFragment);
                         break;
                     default:
                         break;
@@ -106,10 +127,11 @@ public class TestApiFragment extends BaseFragment {
 
     @Override
     protected void initialize() {
-//        daoManager = IOTApplication.getAppComponent().getGreenDaoManager();
         initMenu();
-        GreenDaoTestApiFragment greenDaoTestApiFragment = new GreenDaoTestApiFragment();
-        loadRootFragment(R.id.test_api_content, greenDaoTestApiFragment);
+        greenDaoTestApiFragment = new GreenDaoTestApiFragment();
+        testApiListMainFragment = new TestApiListMainFragment();
+        loadMultipleRootFragment(R.id.test_api_content, 0, greenDaoTestApiFragment, testApiListMainFragment);
+        toolbarLayout.setVisibility(View.GONE);
 
     }
 
@@ -130,44 +152,9 @@ public class TestApiFragment extends BaseFragment {
         testApiBean.setApiUrl(url);
         testApiBean.setParams(params);
 
-//        daoManager.insert(testApiBean);
-
         RxBus.getInstance().post(testApiBean);
 
     }
 
 
-    private void setupViewPager(final ViewPager viewPager, List<TestApiBean> list) {
-//        adapter = new TestApiFragmentPagerAdapter(getChildFragmentManager());
-//
-//        Flowable.fromIterable(list).subscribe(new Consumer<TestApiBean>() {
-//            @Override
-//            public void accept(TestApiBean testApi) throws Exception {
-//                adapter.addFragment(TestApiListFragment.newInstance(testApi.getApis()), testApi.getCategory());
-//            }
-//        });
-//
-//        viewPager.setAdapter(adapter);
-//        TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
-//        tabLayout.setupWithViewPager(viewPager);
-//        adapter.addFragment(new TestApiListFragment(), "Category 3");
-
-    }
-
-
-//    private void insertTestApi() {
-//        int index = 0;
-//        List<TestApiBean> testApiBeans = daoManager.queryAll();
-//        if (testApiBeans.size() != 0) {
-//            Long id = testApiBeans.get(0).getId();
-//            index = (int) (id + 1);
-//        }
-//
-//        TestApiBean testApiBean = new TestApiBean();
-//        testApiBean.setApiName("name==" + index);
-//        testApiBean.setApiUrl("url==" + index);
-//        testApiBean.setCategory("cate==" + index);
-//        testApiBean.setParams("params==" + index);
-////        daoManager.insert(testApiBean);
-//    }
 }
