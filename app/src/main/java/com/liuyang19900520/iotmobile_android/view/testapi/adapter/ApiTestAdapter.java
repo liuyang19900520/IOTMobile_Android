@@ -21,10 +21,10 @@ import java.util.List;
 /**
  * @author liuya
  */
-public class TestApiAdapter extends BaseQuickAdapter<TestApiBean, BaseViewHolder> {
+public class ApiTestAdapter extends BaseQuickAdapter<TestApiBean, BaseViewHolder> {
 
 
-    public TestApiAdapter(int layoutResId, @Nullable List<TestApiBean> data) {
+    public ApiTestAdapter(int layoutResId, @Nullable List<TestApiBean> data) {
         super(layoutResId, data);
     }
 
@@ -32,9 +32,7 @@ public class TestApiAdapter extends BaseQuickAdapter<TestApiBean, BaseViewHolder
     protected void convert(BaseViewHolder helper, TestApiBean item) {
         helper.setText(R.id.tv_name, item.getApiName());
         helper.setText(R.id.tv_url, item.getApiUrl());
-        ImageLoader.loadDefault(mContext,(ImageView) helper.getView(R.id.avatar));
+        ImageLoader.loadDefault(mContext, (ImageView) helper.getView(R.id.avatar));
     }
-
-
 
 }

@@ -13,7 +13,7 @@ import me.yokeyword.fragmentation.SupportActivity;
 
 /**
  * 启动页
- * Created by xiarh on 2017/12/27.
+ * Created by liuyang on 2017/12/27.
  */
 
 public class SplashActivity extends SupportActivity {

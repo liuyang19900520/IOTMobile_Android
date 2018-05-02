@@ -10,7 +10,9 @@ import io.reactivex.subscribers.ResourceSubscriber;
 
 /**
  * Subscriber基类
- * Created by xiarh on 2017/11/13.
+ *
+ * @author liuyang
+ * @date 2017/11/13
  */
 
 public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {

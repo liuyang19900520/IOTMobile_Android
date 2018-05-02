@@ -9,7 +9,9 @@ import com.liuyang19900520.iotmobile_android.view.main.MainActivity;
 import dagger.Component;
 
 /**
- * Created by xiarh on 2017/11/3.
+ *
+ * @author liuyang
+ * @date 2017/11/3
  */
 
 @ActivityScope

@@ -9,6 +9,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+/**
+ * @author liuya
+ */
 public class GreenDaoManager {
 
     private DaoMaster mDaoMaster;
@@ -17,7 +20,7 @@ public class GreenDaoManager {
 
     @Inject
     public GreenDaoManager(Context context) {
-        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(context, "iot", null);//此处为自己需要处理的表
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(context, "iot", null);
         mDaoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         mDaoSession = mDaoMaster.newSession();
     }
@@ -53,6 +56,15 @@ public class GreenDaoManager {
                 .list();
     }
 
+    public List<TestApiBean> queryByCate(String category) {
+        return getTestApiDao()
+                .queryBuilder()
+                .where(TestApiBeanDao.Properties.Category.eq(category))
+                .orderDesc(TestApiBeanDao.Properties.Id)
+                .build()
+                .list();
+    }
+
     /**
      * 新增
      *
@@ -67,13 +79,13 @@ public class GreenDaoManager {
     /**
      * 根据Guid查询
      *
-     * @param guid
+     * @param id
      * @return
      */
-    public boolean queryByGuid(String guid) {
+    public boolean queryById(String id) {
         TestApiBean bean = getTestApiDao()
                 .queryBuilder()
-                .where(TestApiBeanDao.Properties.Id.eq(guid))
+                .where(TestApiBeanDao.Properties.Id.eq(id))
                 .build()
                 .unique();
         if (null == bean) {

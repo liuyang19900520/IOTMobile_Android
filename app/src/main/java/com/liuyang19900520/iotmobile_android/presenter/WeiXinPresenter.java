@@ -17,7 +17,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by xiarh on 2017/11/8.
+ *
+ * @author liuyang
+ * @date 2017/11/8
  */
 
 public class WeiXinPresenter extends RxPresenter<WeiXinContract.View> implements WeiXinContract.Presenter {

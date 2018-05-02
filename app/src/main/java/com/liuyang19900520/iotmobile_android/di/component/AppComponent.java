@@ -15,11 +15,15 @@ import retrofit2.Retrofit;
 
 
 
+/**
+ * @author liuya
+ */
 @Singleton
 @Component(modules = {ApplicationModule.class, HttpModule.class})
 public interface AppComponent {
 
-    Context getContext(); // 提供Context给子Component使用
+    // 提供Context给子Component使用
+    Context getContext();
 
     SharePrefManager getSharePrefManager();
 

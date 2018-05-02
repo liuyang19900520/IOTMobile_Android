@@ -5,7 +5,9 @@ import io.reactivex.disposables.Disposable;
 
 /**
  * 基于Rx的Presenter封装,控制订阅的生命周期
- * Created by xiarh on 2017/9/25.
+ *
+ * @author liuyang
+ * @date 2017/9/25
  */
 
 public class RxPresenter<T extends BaseView> implements BasePresenter<T> {

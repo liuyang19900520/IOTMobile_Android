@@ -13,7 +13,9 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by xiarh on 2017/9/21.
+ *
+ * @author liuyang
+ * @date 2017/9/21
  */
 
 @Module

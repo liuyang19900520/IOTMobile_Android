@@ -55,6 +55,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
+ * @author liuya
  */
 public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements LoginContract.View {
 

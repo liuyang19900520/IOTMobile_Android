@@ -19,7 +19,9 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Fragment基类
- * Created by xiarh on 2017/9/21.
+ *
+ * @author liuyang
+ * @date 2017/9/21
  */
 
 public abstract class BaseFragment extends SupportFragment {

@@ -4,12 +4,12 @@ import android.util.Log;
 
 /**
  * 日志打印
- * Created by xiarh on 2017/9/13.
+ * Created by liuyang on 2017/9/13.
  */
 
 public class LogUtil {
 
-    public static final String TAG = "xrhtest";
+    public static final String TAG = "IOT_android";
 
     /**
      * @param msg

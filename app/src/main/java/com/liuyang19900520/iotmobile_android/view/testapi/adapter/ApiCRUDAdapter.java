@@ -8,10 +8,11 @@ import com.liuyang19900520.iotmobile_android.model.bean.TestApiBean;
 import java.util.List;
 
 /**
- * Created by luoxw on 2016/6/20.
+ *
+ * @author liuyang
  */
-public class ItemDragAdapter extends BaseItemDraggableAdapter<TestApiBean, BaseViewHolder> {
-    public ItemDragAdapter(List data) {
+public class ApiCRUDAdapter extends BaseItemDraggableAdapter<TestApiBean, BaseViewHolder> {
+    public ApiCRUDAdapter(List data) {
         super(R.layout.item_test_api_crud_view, data);
     }
 

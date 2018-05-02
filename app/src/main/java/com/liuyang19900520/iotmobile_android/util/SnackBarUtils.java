@@ -10,7 +10,9 @@ import com.liuyang19900520.iotmobile_android.R;
 
 
 /**
- * Created by xiarh on 2017/10/13.
+ *
+ * @author liuyang
+ * @date 2017/10/13
  */
 
 public class SnackBarUtils {

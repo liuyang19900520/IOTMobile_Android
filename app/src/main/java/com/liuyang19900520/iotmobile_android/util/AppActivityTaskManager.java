@@ -6,7 +6,9 @@ import java.util.Stack;
 
 /**
  * 管理和回收Act
- * Created by xiarh on 2017/9/13.
+ *
+ * @author liuyang
+ * @date 2017/9/13
  */
 
 public class AppActivityTaskManager {

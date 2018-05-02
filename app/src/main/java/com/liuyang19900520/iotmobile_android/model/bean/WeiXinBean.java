@@ -3,7 +3,9 @@ package com.liuyang19900520.iotmobile_android.model.bean;
 import java.util.List;
 
 /**
- * Created by xiarh on 2017/11/8.
+ *
+ * @author liuyang
+ * @date 2017/11/8
  */
 
 public class WeiXinBean {

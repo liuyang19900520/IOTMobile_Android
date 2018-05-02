@@ -1,5 +1,8 @@
 package com.liuyang19900520.iotmobile_android.config;
 
+/**
+ * @author liuya
+ */
 public class Messages {
 
     public static final int OK = 0;

@@ -15,7 +15,9 @@ import me.yokeyword.fragmentation.SupportActivity;
 
 /**
  * Activity基类
- * Created by xiarh on 2017/9/21.
+ *
+ * @author liuyang
+ * @date 2017/9/21
  */
 
 public abstract class BaseActivity extends SupportActivity {

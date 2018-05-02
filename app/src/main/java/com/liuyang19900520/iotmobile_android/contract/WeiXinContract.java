@@ -6,7 +6,7 @@ import com.liuyang19900520.iotmobile_android.base.BaseView;
 import com.liuyang19900520.iotmobile_android.model.bean.WeiXinBean;
 
 /**
- * Created by xiarh on 2017/11/8.
+ * Created by liuyang on 2017/11/8.
  */
 
 public interface WeiXinContract {

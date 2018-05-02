@@ -15,11 +15,11 @@ import com.liuyang19900520.iotmobile_android.util.LogUtil;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.sdk.QbSdk;
+
 import me.yokeyword.fragmentation.Fragmentation;
 import me.yokeyword.fragmentation.helper.ExceptionHandler;
 
 /**
- *
  * @author liuyang
  * @date 2017/9/20
  */
@@ -57,7 +57,8 @@ public class IOTApplication extends Application {
         // 初始化Bugly
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
         strategy.setAppVersion(String.valueOf(AppApplicationUtil.getVersionCode(getApplicationContext())));
-        CrashReport.initCrashReport(getApplicationContext(), Constants.BUGLY_APP_ID, false); // debug版本设置为true，正式发布设置为false
+        // debug版本设置为true，正式发布设置为false
+        CrashReport.initCrashReport(getApplicationContext(), Constants.BUGLY_APP_ID, false);
 
         // 初始化Fragmentation
         Fragmentation.builder()
@@ -72,7 +73,8 @@ public class IOTApplication extends Application {
                 .handleException(new ExceptionHandler() {
                     @Override
                     public void onException(Exception e) {
-                        CrashReport.postCatchedException(e);  // bugly会将这个Exception上报
+                        // bugly会将这个Exception上报
+                        CrashReport.postCatchedException(e);
                     }
                 })
                 .install();

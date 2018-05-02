@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import javax.inject.Qualifier;
 
 /**
- * Created by xiarh on 2017/11/3.
+ * Created by liuyang on 2017/11/3.
  */
 
 @Qualifier

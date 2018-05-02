@@ -11,7 +11,9 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 
 /**
- * Created by xiarh on 2017/9/14.
+ *
+ * @author liuyang
+ * @date 2017/9/14
  */
 
 public class AppFileUtil {

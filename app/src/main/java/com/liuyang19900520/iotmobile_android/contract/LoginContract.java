@@ -17,16 +17,11 @@ public interface LoginContract {
 
         void toMain();
 
-
     }
 
     interface Presenter extends BasePresenter<View> {
 
-        /**
-         * 登录
-         */
         void login(LoginUser loginUser);
-
 
     }
 }

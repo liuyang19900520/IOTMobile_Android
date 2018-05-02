@@ -11,7 +11,9 @@ import com.liuyang19900520.iotmobile_android.util.ImageLoader;
 
 
 /**
- * Created by xiarh on 2017/11/8.
+ *
+ * @author liuyang
+ * @date 2017/11/8
  */
 
 public class WeiXinAdapter extends BaseQuickAdapter<WeiXinBean.NewslistBean, BaseViewHolder> {

@@ -7,6 +7,9 @@ import android.widget.Toast;
 
 import com.liuyang19900520.iotmobile_android.config.IOTApplication;
 
+/**
+ * @author liuya
+ */
 public class ToastUtils {
 
     private ToastUtils() {

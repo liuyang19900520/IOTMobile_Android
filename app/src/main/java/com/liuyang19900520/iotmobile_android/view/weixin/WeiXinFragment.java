@@ -24,7 +24,9 @@ import butterknife.BindView;
 
 /**
  * 微信精选
- * Created by xiarh on 2017/11/8.
+ *
+ * @author liuyang
+ * @date 2017/11/8
  */
 
 public class WeiXinFragment extends BaseMVPFragment<WeiXinPresenter> implements WeiXinContract.View,

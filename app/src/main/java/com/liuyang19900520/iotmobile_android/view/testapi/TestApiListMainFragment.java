@@ -16,25 +16,19 @@
 
 package com.liuyang19900520.iotmobile_android.view.testapi;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.liuyang19900520.iotmobile_android.R;
 import com.liuyang19900520.iotmobile_android.base.BaseFragment;
+import com.liuyang19900520.iotmobile_android.base.RxBus;
 import com.liuyang19900520.iotmobile_android.config.IOTApplication;
 import com.liuyang19900520.iotmobile_android.model.bean.TestApiBean;
 import com.liuyang19900520.iotmobile_android.model.db.GreenDaoManager;
-import com.liuyang19900520.iotmobile_android.view.testapi.adapter.TestApiAdapter;
 import com.liuyang19900520.iotmobile_android.view.testapi.adapter.TestApiFragmentPagerAdapter;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -55,8 +49,10 @@ public class TestApiListMainFragment extends BaseFragment {
 
     private List<TestApiBean> mData;
 
-
     private GreenDaoManager dbManager;
+
+    private Map<String, List<TestApiBean>> map = Maps.newConcurrentMap();
+
 
     @Override
     protected int getLayoutId() {
@@ -68,36 +64,23 @@ public class TestApiListMainFragment extends BaseFragment {
         dbManager = IOTApplication.getAppComponent().getGreenDaoManager();
         mData = Lists.newArrayList();
         mData.addAll(dbManager.queryAll());
-        setupViewPager(viewPager, mData);
+        setupViewPager(viewPager);
+
 
     }
 
-//    public static TestApiListMainFragment newInstance(List<TestApiBean> testApis) {
-//        Bundle args = new Bundle();
-//        args.putSerializable(TEST_API, (Serializable) testApis);
-//
-//        TestApiListMainFragment fragment = new TestApiListMainFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//    ;
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        Bundle args = getArguments();
-//        if (args != null) {
-//            testApis = (List<TestApiBean>) args.getSerializable(TEST_API);
-//        }
-//    }
-
-    private void setupViewPager(final ViewPager viewPager, List<TestApiBean> list) {
-
-        Map<String, List<TestApiBean>> map = Maps.newConcurrentMap();
+    private void setupViewPager(final ViewPager viewPager) {
         pagerAdapter = new TestApiFragmentPagerAdapter(getChildFragmentManager());
+        constructAdapter();
+        viewPager.setAdapter(pagerAdapter);
 
-        Flowable.fromIterable(list).subscribe(new io.reactivex.functions.Consumer<TestApiBean>() {
+        TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+    }
+
+    private void constructAdapter() {
+        Flowable.fromIterable(mData).subscribe(new io.reactivex.functions.Consumer<TestApiBean>() {
             @Override
             public void accept(TestApiBean testApi) throws Exception {
                 if (!map.containsKey(testApi.getCategory())) {
@@ -118,12 +101,27 @@ public class TestApiListMainFragment extends BaseFragment {
                 pagerAdapter.addFragment(TestApiListFragment.newInstance(map.get(s)), s);
             }
         });
-
-
-        viewPager.setAdapter(pagerAdapter);
-        TabLayout tabLayout = getActivity().findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
+        pagerAdapter.addData(map);
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+
+        } else {
+            if (pagerAdapter != null) {
+                mData.clear();
+                mData.addAll(dbManager.queryAll());
+                map.clear();
+                pagerAdapter.claerFragments();
+                constructAdapter();
+                pagerAdapter.notifyDataSetChanged();
+                viewPager.setCurrentItem(0);
+
+            }
+        }
+    }
+
 
 }

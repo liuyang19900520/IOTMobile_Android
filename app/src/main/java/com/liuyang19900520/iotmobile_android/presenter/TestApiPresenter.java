@@ -28,7 +28,6 @@ import io.reactivex.schedulers.Schedulers;
 
 public class TestApiPresenter extends RxPresenter<TestApiContract.View> implements TestApiContract.Presenter {
 
-    private static final int REFRESH_DATA = 0X0000001;
     private Context context;
 
     private GreenDaoManager dbManager;
@@ -44,13 +43,14 @@ public class TestApiPresenter extends RxPresenter<TestApiContract.View> implemen
     @Override
     public void getTestApiData(int pagesize, int page) {
         List<TestApiBean> list = dbManager.queryAll();
-        addSubscribe(Flowable.just(1).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(new BaseSubscriber<Integer>(context, mView) {
+        addSubscribe(Flowable.just(1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseSubscriber<Integer>(context, mView) {
                     @Override
                     public void onNext(Integer integer) {
                         mView.showApis(list);
                     }
-
                 }));
 
     }
@@ -69,11 +69,9 @@ public class TestApiPresenter extends RxPresenter<TestApiContract.View> implemen
                 .subscribeWith(new BaseSubscriber<TestApiBean>(context, mView) {
                     @Override
                     public void onNext(TestApiBean api) {
-
                         dbManager.insert(api);
                         getTestApiData(0, 0);
                     }
-
                 }));
     }
 

@@ -18,39 +18,19 @@ package com.liuyang19900520.iotmobile_android.view.testapi;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.common.collect.Lists;
 import com.liuyang19900520.iotmobile_android.R;
 import com.liuyang19900520.iotmobile_android.base.BaseFragment;
-import com.liuyang19900520.iotmobile_android.base.BaseMVPFragment;
-import com.liuyang19900520.iotmobile_android.config.IOTApplication;
-import com.liuyang19900520.iotmobile_android.contract.TestApiContract;
-import com.liuyang19900520.iotmobile_android.di.component.DaggerMainActivityComponent;
-import com.liuyang19900520.iotmobile_android.di.component.DaggerTestApiFragmentComponent;
-import com.liuyang19900520.iotmobile_android.di.module.MainActivityModule;
-import com.liuyang19900520.iotmobile_android.di.module.TestApiFragmentModule;
 import com.liuyang19900520.iotmobile_android.model.bean.TestApiBean;
-import com.liuyang19900520.iotmobile_android.presenter.TestApiPresenter;
-import com.liuyang19900520.iotmobile_android.view.main.Cheeses;
-import com.liuyang19900520.iotmobile_android.view.testapi.adapter.TestApiAdapter;
+import com.liuyang19900520.iotmobile_android.view.testapi.adapter.ApiTestAdapter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 
@@ -63,34 +43,16 @@ public class TestApiListFragment extends BaseFragment {
 
     private List<TestApiBean> testApis = Lists.newArrayList();
 
-    private TestApiAdapter testApiAdapter;
+    public ApiTestAdapter testApiAdapter;
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
-
 
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_test_api_list;
     }
 
-    @Override
-    protected void initialize() {
-
-        setupRecyclerView(recyclerView);
-
-    }
-
-    public static TestApiListFragment newInstance(List<TestApiBean> testApis) {
-        Bundle args = new Bundle();
-        args.putSerializable(TEST_API, (Serializable) testApis);
-
-        TestApiListFragment fragment = new TestApiListFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    ;
 
     @Override
     public void onAttach(Context context) {
@@ -101,12 +63,31 @@ public class TestApiListFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        setupRecyclerView(recyclerView);
+    }
+
+    @Override
+    protected void initialize() {
+
+    }
+
+
+    public static TestApiListFragment newInstance(List<TestApiBean> testApis) {
+        Bundle args = new Bundle();
+        args.putSerializable(TEST_API, (Serializable) testApis);
+        TestApiListFragment fragment = new TestApiListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
-        testApiAdapter = new TestApiAdapter(R.layout.item_test_api, testApis);
+        testApiAdapter = new ApiTestAdapter(R.layout.item_test_api, testApis);
         recyclerView.setAdapter(testApiAdapter);
     }
-
 
 }

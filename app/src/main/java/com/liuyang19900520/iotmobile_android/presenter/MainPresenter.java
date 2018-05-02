@@ -14,13 +14,10 @@ import javax.inject.Inject;
 
 public class MainPresenter extends RxPresenter<MainContract.View> implements MainContract.Presenter {
 
-
     private Context context;
-
 
     @Inject
     public MainPresenter(Context context) {
-
         this.context = context;
     }
 

@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 
 /**
  * 微信精选
- * Created by xiarh on 2017/11/8.
+ * Created by liuyang on 2017/11/8.
  */
 
 public interface WeiXinApi {

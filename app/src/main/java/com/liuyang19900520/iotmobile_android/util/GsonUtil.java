@@ -6,8 +6,12 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author liuya
+ */
 public class GsonUtil {
     private static Gson gson = null;
+
     static {
         if (gson == null) {
             gson = new Gson();

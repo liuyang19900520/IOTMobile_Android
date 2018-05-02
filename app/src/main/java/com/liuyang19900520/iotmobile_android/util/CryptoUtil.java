@@ -8,6 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by liuyang on 2018/3/17
+ * @author liuya
  */
 
 public class CryptoUtil {

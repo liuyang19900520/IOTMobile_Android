@@ -14,9 +14,7 @@ import java.util.List;
 public interface MainContract {
 
     interface View extends BaseView {
-        /**
-         * show apis
-         */
+
         void showApiList(List<TestApiBean> apis);
 
     }

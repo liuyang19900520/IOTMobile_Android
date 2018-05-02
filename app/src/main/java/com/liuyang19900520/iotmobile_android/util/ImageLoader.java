@@ -10,7 +10,9 @@ import com.liuyang19900520.iotmobile_android.config.GlideApp;
 
 
 /**
- * Created by xiarh on 2018/2/2.
+ *
+ * @author liuyang
+ * @date 2018/2/2
  */
 
 public class ImageLoader {

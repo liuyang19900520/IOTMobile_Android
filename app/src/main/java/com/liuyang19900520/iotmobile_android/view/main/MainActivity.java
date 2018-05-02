@@ -43,7 +43,6 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
     private WeiXinFragment weiXinFragment;
 
-    private TestApiFragment testApiFragment;
 
     /**
      * save our header or result
@@ -112,9 +111,6 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
                 }).build();
 
         initFragment();
-
-
-
     }
 
 
@@ -137,7 +133,6 @@ public class MainActivity extends BaseMVPActivity<MainPresenter> implements Main
 
     private void initFragment() {
         weiXinFragment = new WeiXinFragment();
-        testApiFragment = new TestApiFragment();
         loadRootFragment(R.id.main_content, weiXinFragment);
 
 

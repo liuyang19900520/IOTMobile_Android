@@ -1,5 +1,7 @@
 package com.liuyang19900520.iotmobile_android.view.testapi;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -58,6 +60,9 @@ public class TestApiFragment extends BaseFragment {
     @BindView(R.id.tabs)
     TabLayout toolbarLayout;
 
+    @BindView(R.id.fab_add)
+    FloatingActionButton fabAdd;
+
     private MaterialDialog insertDialog;
     private EditText etCategory;
     private EditText etName;
@@ -102,19 +107,19 @@ public class TestApiFragment extends BaseFragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                final ISupportFragment topFragment = getTopFragment();
-                BaseFragment myHome = (BaseFragment) topFragment;
                 switch (item.getItemId()) {
                     case R.id.action_crud:
                         toolbar.setSubtitle("CRUD");
                         toolbarLayout.setVisibility(View.GONE);
-                        showHideFragment(greenDaoTestApiFragment, testApiListMainFragment);
+                        fabAdd.setVisibility(View.VISIBLE);
+                        showHideFragment(greenDaoTestApiFragment);
                         break;
                     case R.id.action_test:
                         ToastUtils.showShortToast("test");
                         toolbar.setSubtitle("TEST");
                         toolbarLayout.setVisibility(View.VISIBLE);
-                        showHideFragment(testApiListMainFragment, greenDaoTestApiFragment);
+                        fabAdd.setVisibility(View.GONE);
+                        showHideFragment(testApiListMainFragment);
                         break;
                     default:
                         break;

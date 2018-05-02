@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class ResultVo {
+
     /**
      * 结果-1 失败，1-成功
      */

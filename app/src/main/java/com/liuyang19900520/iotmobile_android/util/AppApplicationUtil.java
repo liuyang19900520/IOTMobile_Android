@@ -14,7 +14,9 @@ import java.io.File;
 
 /**
  * APP应用信息工具类
- * Created by xiarh on 2017/8/15.
+ *
+ * @author liuyang
+ * @date 2017/8/15
  */
 
 public class AppApplicationUtil {
