@@ -118,5 +118,9 @@ public class GreenDaoTestApiFragment extends BaseMVPFragment<TestApiPresenter> i
 
     }
 
+    @Override
+    public void testApiRusult(int position, boolean isSuccess) {
+
+    }
 
 }

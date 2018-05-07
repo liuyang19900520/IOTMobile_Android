@@ -47,6 +47,7 @@
         android:id="@+id/avatar"
         android:layout_width="@dimen/list_item_avatar_size"
         android:layout_height="@dimen/list_item_avatar_size"
+        android:layout_gravity="right"
         android:layout_marginLeft="16dp" />
 
 

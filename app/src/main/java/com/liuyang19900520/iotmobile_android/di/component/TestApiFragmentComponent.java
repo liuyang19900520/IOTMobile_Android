@@ -5,6 +5,7 @@ import com.liuyang19900520.iotmobile_android.di.module.TestApiFragmentModule;
 import com.liuyang19900520.iotmobile_android.di.scope.FragmentScope;
 import com.liuyang19900520.iotmobile_android.view.testapi.GreenDaoTestApiFragment;
 import com.liuyang19900520.iotmobile_android.view.testapi.TestApiFragment;
+import com.liuyang19900520.iotmobile_android.view.testapi.TestApiListFragment;
 
 import dagger.Component;
 
@@ -20,5 +21,5 @@ public interface TestApiFragmentComponent {
 
     void injectGreenDaoTestApi(GreenDaoTestApiFragment greenDaoTestApiFragment);
 
-    void injectTestApi(TestApiFragment testApiFragment);
+    void injectTestApi(TestApiListFragment testApiFragment);
 }

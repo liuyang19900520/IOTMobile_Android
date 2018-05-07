@@ -32,7 +32,7 @@ public class ApiTestAdapter extends BaseQuickAdapter<TestApiBean, BaseViewHolder
     protected void convert(BaseViewHolder helper, TestApiBean item) {
         helper.setText(R.id.tv_name, item.getApiName());
         helper.setText(R.id.tv_url, item.getApiUrl());
-        ImageLoader.loadDefault(mContext, (ImageView) helper.getView(R.id.avatar));
+        ImageLoader.loadAll(mContext, R.drawable.ic_executing_waiting, (ImageView) helper.getView(R.id.avatar));
     }
 
 }

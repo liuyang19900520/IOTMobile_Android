@@ -20,6 +20,8 @@ public interface TestApiContract {
 
         void refreshAdapter(boolean isRefresh);
 
+        void testApiRusult(int position, boolean isSuccess);
+
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -30,6 +32,6 @@ public interface TestApiContract {
 
         void insertTestApi();
 
-
+        void testApi(int position, String url, Object parmas);
     }
 }

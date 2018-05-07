@@ -55,7 +55,7 @@ android {
         debug {
             minifyEnabled false                     //混淆关闭
 //            signingConfig signingConfigs.config    //设置签名信息
-            proguardFiles 'proguard-rules.pro','proguard.cfg'
+            proguardFiles 'proguard-rules.pro', 'proguard.cfg'
         }
     }
     //打包apk重命名
@@ -165,6 +165,8 @@ dependencies {
     }
     implementation 'com.mikepenz:itemanimators:1.0.2@aar'
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
+
+    implementation 'com.ljs:LovelyProgressBar:1.0.0'
 
 
 }
